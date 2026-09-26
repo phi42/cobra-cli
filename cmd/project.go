@@ -18,6 +18,7 @@ type Project struct {
 	Legal        License
 	Viper        bool
 	AppName      string
+	NoHeader     bool
 }
 
 type Command struct {
