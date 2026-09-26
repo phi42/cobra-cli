@@ -119,9 +119,9 @@ func initConfig() {
 }
 
 func AddCommandTemplate() []byte {
-	return []byte(`{{if not .Project.NoHeader -}}
+	return []byte(`{{if not .NoHeader -}}
 /*
-{{ .Project.Copyright }}
+{{ .Copyright }}
 {{- if .Legal.Header }}
 {{ .Legal.Header }}
 {{- end }}
