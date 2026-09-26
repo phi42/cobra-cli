@@ -19,6 +19,7 @@ import (
 	"unicode"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var (
@@ -64,6 +65,7 @@ Example: cobra-cli add server -> resulting in a new cmd/server.go`,
 					AbsolutePath: wd,
 					Legal:        getLicense(),
 					Copyright:    copyrightLine(),
+					NoHeader:     viper.GetBool("no-header"),
 				},
 			}
 
@@ -77,7 +79,12 @@ Example: cobra-cli add server -> resulting in a new cmd/server.go`,
 func init() {
 	addCmd.Flags().StringVarP(&packageName, "package", "t", "", "target package name (e.g. github.com/spf13/hugo)")
 	addCmd.Flags().StringVarP(&parentName, "parent", "p", "rootCmd", "variable name of parent command for this command")
+	addCmd.Flags().BoolP("no-header", "n", false, "omit header block entirely")
 	cobra.CheckErr(addCmd.Flags().MarkDeprecated("package", "this operation has been removed."))
+
+	if err := viper.BindPFlag("no-header", addCmd.Flags().Lookup("no-header")); err != nil {
+		panic(err)
+	}
 }
 
 // validateCmdName returns source without any dashes and underscore.
